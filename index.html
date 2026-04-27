@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>SABA</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  direction: rtl;
+  background: #f4f7fb;
+  color: #111827;
+}
+
+.app {
+  max-width: 440px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 22px;
+}
+
+.top {
+  background: linear-gradient(135deg, #0f172a, #1e40af);
+  color: white;
+  padding: 26px;
+  border-radius: 28px;
+  margin-bottom: 22px;
+  box-shadow: 0 18px 40px rgba(30,64,175,0.25);
+}
+
+.brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.ai-badge {
+  background: rgba(255,255,255,0.18);
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.top h2 {
+  margin: 22px 0 8px;
+  font-size: 22px;
+}
+
+.top p {
+  margin: 0;
+  color: #dbeafe;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.card, .result-card {
+  background: white;
+  border-radius: 26px;
+  padding: 22px;
+  box-shadow: 0 14px 35px rgba(15,23,42,0.08);
+  margin-bottom: 18px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.field { margin-bottom: 16px; }
+
+label {
+  display: block;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 7px;
+}
+
+input, select {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 15px;
+  border-radius: 16px;
+  font-size: 15px;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: #2563eb;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
+}
+
+button {
+  width: 100%;
+  border: none;
+  padding: 16px;
+  border-radius: 18px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.result-card { text-align: center; }
+
+.status-label {
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+#result {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 8px 0;
+}
+
+.info-box {
+  margin-top: 14px;
+  background: #f8fafc;
+  padding: 14px;
+  border-radius: 18px;
+  text-align: right;
+  color: #475569;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+.confidence-box {
+  margin-top: 18px;
+  background: #f8fafc;
+  padding: 14px;
+  border-radius: 18px;
+}
+
+#confidence {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.bar-bg {
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+#bar {
+  height: 100%;
+  width: 0%;
+  background: #2563eb;
+  border-radius: 999px;
+  transition: 0.4s;
+}
+
+.footer {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 12px;
+  margin-top: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="top">
+    <div class="brand">
+      <div class="logo">SABA</div>
+      <div class="ai-badge">AI Model Active</div>
+    </div>
+
+    <h2>Smart ABA Assistant</h2>
+    <p>نظام ذكي يساعد الأخصائي على تحليل بيانات الجلسة واقتراح القرار المناسب.</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title">بيانات الجلسة</div>
+
+    <div class="field">
+      <label>مدة العمل بالدقائق</label>
+      <input id="workDuration" type="number" placeholder="مثال: 25">
+    </div>
+
+    <div class="field">
+      <label>عدد مرات الرفض</label>
+      <input id="refusal" type="number" placeholder="مثال: 3">
+    </div>
+
+    <div class="field">
+      <label>عدد مرات ترك الكرسي</label>
+      <input id="movement" type="number" placeholder="مثال: 2">
+    </div>
+
+    <div class="field">
+      <label>صعوبة المهمة</label>
+      <select id="taskDifficulty">
+        <option value="1">منخفضة</option>
+        <option value="2">متوسطة</option>
+        <option value="3">مرتفعة</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>مستوى الجوع</label>
+      <select id="hunger">
+        <option value="1">منخفض</option>
+        <option value="2">متوسط</option>
+        <option value="3">مرتفع</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>جودة النوم</label>
+      <select id="sleepQuality">
+        <option value="1">جيدة</option>
+        <option value="2">متوسطة</option>
+        <option value="3">ضعيفة</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>الضغط الحسي</label>
+      <select id="sensoryPressure">
+        <option value="1">منخفض</option>
+        <option value="2">متوسط</option>
+        <option value="3">مرتفع</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>توفر المعززات</label>
+      <select id="reinforcer">
+        <option value="1">متوفر</option>
+        <option value="2">متوسط</option>
+        <option value="3">ضعيف</option>
+      </select>
+    </div>
+
+    <button onclick="analyze()">تحليل الحالة</button>
+  </div>
+
+  <div class="result-card">
+    <div class="status-label">القرار المقترح</div>
+    <div id="result">—</div>
+
+    <div class="info-box">
+      <b>سبب القرار:</b>
+      <div id="reason">أدخل بيانات الجلسة ثم اضغط تحليل الحالة.</div>
+    </div>
+
+    <div class="info-box">
+      <b>التوصية:</b>
+      <div id="recommendation">—</div>
+    </div>
+
+    <div class="confidence-box">
+      <div id="confidence">ثقة المودل: —</div>
+      <div class="bar-bg">
+        <div id="bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">SABA Prototype — AI Decision Support</div>
+
+</div>
+
+<script>
+async function analyze() {
+  let data = {
+    session_minute: Number(document.getElementById("workDuration").value) || 0,
+    task_difficulty: Number(document.getElementById("taskDifficulty").value),
+    sleep_quality: Number(document.getElementById("sleepQuality").value),
+    hunger_level: Number(document.getElementById("hunger").value),
+    sensory_load: Number(document.getElementById("sensoryPressure").value),
+    preferred_items_available: Number(document.getElementById("reinforcer").value),
+    refusal_count: Number(document.getElementById("refusal").value) || 0,
+    leaving_seat_count: Number(document.getElementById("movement").value) || 0
+  };
+
+  try {
+    let response = await fetch("http://127.0.0.1:5000/predict", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    });
+
+    let output = await response.json();
+
+    let resultBox = document.getElementById("result");
+    let reason = document.getElementById("reason");
+    let recommendation = document.getElementById("recommendation");
+    let confidence = document.getElementById("confidence");
+    let bar = document.getElementById("bar");
+
+    if (output.decision === "give_break") {
+      resultBox.innerText = "إعطاء استراحة";
+      resultBox.style.color = "#dc2626";
+      bar.style.background = "#dc2626";
+    } else if (output.decision === "change_activity") {
+      resultBox.innerText = "تعديل النشاط";
+      resultBox.style.color = "#f59e0b";
+      bar.style.background = "#f59e0b";
+    } else {
+      resultBox.innerText = "استمرار الجلسة";
+      resultBox.style.color = "#16a34a";
+      bar.style.background = "#16a34a";
+    }
+
+    reason.innerText = output.reason;
+    recommendation.innerText = output.recommendation;
+    confidence.innerText = "ثقة المودل: " + output.confidence + "%";
+    bar.style.width = output.confidence + "%";
+
+  } catch (error) {
+    document.getElementById("result").innerText = "خطأ في الاتصال";
+    document.getElementById("reason").innerText = "تأكد أن السيرفر شغال في التيرمنال.";
+  }
+}
+</script>
+
+</body>
+</html>
