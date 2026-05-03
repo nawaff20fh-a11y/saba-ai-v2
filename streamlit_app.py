@@ -13,12 +13,13 @@ def get_model():
 
 def render_select(field_name, default=1):
     options = list(SELECT_OPTIONS[field_name].keys())
-    default_index = options.index(default)
-    return st.selectbox(
+    return st.segmented_control(
         FIELD_LABELS[field_name],
         options=options,
-        index=default_index,
+        default=default,
         format_func=lambda value: SELECT_OPTIONS[field_name][value],
+        selection_mode="single",
+        width="stretch",
     )
 
 
@@ -46,22 +47,43 @@ st.markdown(
         direction: rtl;
     }
     [data-testid="stNumberInput"] label,
-    [data-testid="stSelectbox"] label {
+    [data-testid="stSegmentedControl"] label {
         color: #64748b;
         font-size: 13px;
         font-weight: 400;
     }
-    [data-testid="stNumberInput"] input,
-    [data-testid="stSelectbox"] div[data-baseweb="select"] > div {
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 16px;
-        min-height: 52px;
+    [data-testid="stNumberInput"] input {
+        font-size: 16px !important;
+        color: #111827 !important;
+        -webkit-text-fill-color: #111827 !important;
+        opacity: 1 !important;
+        caret-color: #111827 !important;
     }
-    [data-testid="stNumberInput"] input:focus,
-    [data-testid="stSelectbox"] div[data-baseweb="select"] > div:focus-within {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
+    [data-testid="stNumberInput"] > div,
+    [data-testid="stSegmentedControl"] {
+        background: #f1f5f9;
+        border: 1px solid #dbe3ee;
+        border-radius: 16px;
+        padding: 10px 10px 6px;
+        margin-bottom: 0.75rem;
+    }
+    [data-testid="stNumberInput"] > div {
+        background: #f1f5f9;
+        border: 1px solid #dbe3ee;
+        border-radius: 16px;
+        padding: 4px;
+    }
+    [data-testid="stNumberInput"] input {
+        background: #f1f5f9 !important;
+    }
+    [data-testid="stSegmentedControl"] [role="radiogroup"] {
+        gap: 0.4rem;
+        flex-wrap: wrap;
+    }
+    [data-testid="stSegmentedControl"] button {
+        min-height: 42px;
+        border-radius: 12px;
+        font-size: 15px;
     }
     div.stButton > button {
         width: 100%;
@@ -152,6 +174,24 @@ st.markdown(
         color: #94a3b8;
         font-size: 12px;
         margin-top: 18px;
+    }
+    @media (max-width: 640px) {
+        .block-container {
+            padding-top: 1rem;
+            padding-left: 0.85rem;
+            padding-right: 0.85rem;
+        }
+        .top,
+        .card,
+        .result-card {
+            border-radius: 22px;
+            padding: 18px;
+        }
+        [data-testid="stNumberInput"] input,
+        [data-testid="stSegmentedControl"] button,
+        div.stButton > button {
+            font-size: 16px !important;
+        }
     }
     </style>
     """,
