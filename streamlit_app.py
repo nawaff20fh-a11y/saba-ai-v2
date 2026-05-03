@@ -13,13 +13,12 @@ def get_model():
 
 def render_select(field_name, default=1):
     options = list(SELECT_OPTIONS[field_name].keys())
-    return st.segmented_control(
+    return st.radio(
         FIELD_LABELS[field_name],
         options=options,
-        default=default,
+        index=options.index(default),
         format_func=lambda value: SELECT_OPTIONS[field_name][value],
-        selection_mode="single",
-        width="stretch",
+        horizontal=True,
     )
 
 
@@ -51,7 +50,7 @@ st.markdown(
         direction: rtl;
     }
     [data-testid="stNumberInput"] label,
-    [data-testid="stSegmentedControl"] label {
+    [data-testid="stRadio"] label {
         color: #64748b;
         font-size: 13px;
         font-weight: 400;
@@ -64,7 +63,7 @@ st.markdown(
         caret-color: #111827 !important;
     }
     [data-testid="stNumberInput"] > div,
-    [data-testid="stSegmentedControl"] {
+    [data-testid="stRadio"] {
         background: #f1f5f9;
         border: 1px solid #dbe3ee;
         border-radius: 16px;
@@ -80,11 +79,11 @@ st.markdown(
     [data-testid="stNumberInput"] input {
         background: #f1f5f9 !important;
     }
-    [data-testid="stSegmentedControl"] [role="radiogroup"] {
+    [data-testid="stRadio"] [role="radiogroup"] {
         gap: 0.4rem;
         flex-wrap: wrap;
     }
-    [data-testid="stSegmentedControl"] button {
+    [data-testid="stRadio"] [role="radio"] {
         min-height: 42px;
         border-radius: 12px;
         font-size: 15px;
@@ -92,22 +91,26 @@ st.markdown(
         color: #334155 !important;
         border: 1px solid #dbe3ee !important;
         box-shadow: none !important;
+        padding: 0.35rem 0.85rem !important;
     }
-    [data-testid="stSegmentedControl"] button * {
+    [data-testid="stRadio"] [role="radio"] * {
         color: #334155 !important;
         -webkit-text-fill-color: #334155 !important;
         opacity: 1 !important;
     }
-    [data-testid="stSegmentedControl"] button[aria-pressed="true"],
-    [data-testid="stSegmentedControl"] button[data-selected="true"] {
+    [data-testid="stRadio"] [role="radio"][aria-checked="true"] {
         background: #eff6ff !important;
         border-color: #2563eb !important;
         color: #1d4ed8 !important;
     }
-    [data-testid="stSegmentedControl"] button[aria-pressed="true"] *,
-    [data-testid="stSegmentedControl"] button[data-selected="true"] * {
+    [data-testid="stRadio"] [role="radio"][aria-checked="true"] * {
         color: #1d4ed8 !important;
         -webkit-text-fill-color: #1d4ed8 !important;
+    }
+    [data-testid="stRadio"] p {
+        color: #334155 !important;
+        -webkit-text-fill-color: #334155 !important;
+        opacity: 1 !important;
     }
     div.stButton > button {
         width: 100%;
@@ -212,7 +215,7 @@ st.markdown(
             padding: 18px;
         }
         [data-testid="stNumberInput"] input,
-        [data-testid="stSegmentedControl"] button,
+        [data-testid="stRadio"] [role="radio"],
         div.stButton > button {
             font-size: 16px !important;
         }
