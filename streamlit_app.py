@@ -34,9 +34,13 @@ def result_color(decision_key):
 st.markdown(
     """
     <style>
+    :root {
+        color-scheme: light !important;
+    }
     .stApp {
         background: #f4f7fb;
         color: #111827;
+        color-scheme: light !important;
     }
     .block-container {
         max-width: 440px;
@@ -84,6 +88,26 @@ st.markdown(
         min-height: 42px;
         border-radius: 12px;
         font-size: 15px;
+        background: #ffffff !important;
+        color: #334155 !important;
+        border: 1px solid #dbe3ee !important;
+        box-shadow: none !important;
+    }
+    [data-testid="stSegmentedControl"] button * {
+        color: #334155 !important;
+        -webkit-text-fill-color: #334155 !important;
+        opacity: 1 !important;
+    }
+    [data-testid="stSegmentedControl"] button[aria-pressed="true"],
+    [data-testid="stSegmentedControl"] button[data-selected="true"] {
+        background: #eff6ff !important;
+        border-color: #2563eb !important;
+        color: #1d4ed8 !important;
+    }
+    [data-testid="stSegmentedControl"] button[aria-pressed="true"] *,
+    [data-testid="stSegmentedControl"] button[data-selected="true"] * {
+        color: #1d4ed8 !important;
+        -webkit-text-fill-color: #1d4ed8 !important;
     }
     div.stButton > button {
         width: 100%;
